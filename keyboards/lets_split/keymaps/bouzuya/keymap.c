@@ -1,214 +1,373 @@
+// "Let's Split" keymap v15
 #include "lets_split.h"
 #include "action_layer.h"
-#include "eeconfig.h"
+#include "keymap_jp.h"
+#include "debug.h"
 
-extern keymap_config_t keymap_config;
+#define L0 0
+#define L1 1
+#define L2 2
+#define L3 3
+#define L4 4
+#define L5 5
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
-#define _QWERTY 0
-#define _COLEMAK 1
-#define _DVORAK 2
-#define _LOWER 3
-#define _RAISE 4
-#define _ADJUST 16
-
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  COLEMAK,
-  DVORAK,
-  LOWER,
-  RAISE,
-  ADJUST,
+enum custom_keycodes
+{
+    B_CTL = SAFE_RANGE,
+    B_SFT,
+    B_ALT,
+    B_GUI
 };
 
-// Fillers to make layering more clear
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO
+#define _____ KC_TRNS
+#define _NOOP KC_NO
+#define XXXXX KC_NO
+#define _MO1_ MO(L1)
+#define _MO4_ MO(L4)
+#define _MO5_ MO(L5)
+#define _TO0_ TO(L0)
+#define _TO1_ TO(L1)
+#define _TO2_ TO(L2)
+#define _OSL1 OSL(L1)
+#define _OSL3 OSL(L3)
+
+#define _S_S_ SFT_T(KC_SPC)
+
+#define _SPC_ KC_SPC
+#define _0___ KC_0    // `0` / ` `
+#define _1___ KC_1    // `1` / `!`
+#define _2___ KC_2    // `2` / `"`
+#define _3___ KC_3    // `3` / `#`
+#define _4___ KC_4    // `4` / `$`
+#define _5___ KC_5    // `5` / `%`
+#define _6___ KC_6    // `6` / `&`
+#define _7___ KC_7    // `7` / `'`
+#define _8___ KC_8    // `8` / `(`
+#define _9___ KC_9    // `9` / `)`
+#define _COLN JP_COLN // `:` / `+`
+#define _SCLN JP_SCLN // `;` / `*`
+#define _COMM JP_COMM // `,` / `<`
+#define _MINS JP_MINS // `-` / `=`
+#define _DOT_ JP_DOT  // `.` / `>`
+#define _SLSH JP_SLSH // `/` / `?`
+#define _AT__ JP_AT   // `@` / ```
+#define _A___ KC_A
+#define _B___ KC_B
+#define _C___ KC_C
+#define _D___ KC_D
+#define _E___ KC_E
+#define _F___ KC_F
+#define _G___ KC_G
+#define _H___ KC_H
+#define _I___ KC_I
+#define _J___ KC_J
+#define _K___ KC_K
+#define _L___ KC_L
+#define _M___ KC_M
+#define _N___ KC_N
+#define _O___ KC_O
+#define _P___ KC_P
+#define _Q___ KC_Q
+#define _R___ KC_R
+#define _S___ KC_S
+#define _T___ KC_T
+#define _U___ KC_U
+#define _V___ KC_V
+#define _W___ KC_W
+#define _X___ KC_X
+#define _Y___ KC_Y
+#define _Z___ KC_Z
+#define _LBRC JP_LBRC      // `[` / `{`
+#define _BSLS LALT(JP_YEN) // `\` / `|`
+#define _RBRC JP_RBRC      // `]` / `}`
+#define _CIRC JP_CIRC      // `^` / `~`
+#define _UNDS JP_BSLS      // `_` / `_`
+
+#define _F1__ KC_F1
+#define _F2__ KC_F2
+#define _F3__ KC_F3
+#define _F4__ KC_F4
+#define _F5__ KC_F5
+#define _F6__ KC_F6
+#define _F7__ KC_F7
+#define _F8__ KC_F8
+#define _F9__ KC_F9
+#define _F10_ KC_F10
+#define _F11_ KC_F11
+#define _F12_ KC_F12
+#define _F13_ KC_F13
+#define _F14_ KC_F14
+#define _F15_ KC_F15
+#define _F16_ KC_F16
+#define _F17_ KC_F17
+#define _F18_ KC_F18
+#define _F19_ KC_F19
+#define _F20_ KC_F20
+
+#define _LEFT KC_LEFT
+#define _UP__ KC_UP
+#define _DOWN KC_DOWN
+#define _RGHT KC_RGHT
+
+#define _HOME KC_HOME
+#define _END_ KC_END
+
+#define _BSPC KC_BSPC
+#define _DEL_ KC_DEL
+#define _ENT_ KC_ENT
+#define _ESC_ KC_ESC
+#define _TAB_ KC_TAB
+
+#define _KANA KC_LANG1
+#define _EISU KC_LANG2
+
+#define _ALT_ KC_LALT
+#define _CTL_ KC_LCTL
+#define _SFT_ KC_LSFT
+#define _GUI_ KC_LGUI
+
+#define _LSFT KC_LSFT
+#define _RSFT KC_RSFT
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    // Layer0
+    // .-----------------------------------------..-----------------------------------------.
+    // | Q    | W    | E    | R    | T    |      ||      | Y    | U    | I    | O    | P    |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // | A    | S    | D    | F    | G    |      ||      | H    | J    | K    | L    | OSL3 |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // | Z    | X    | C    | V    | B    |      ||      | N    | M    | ,    | .    | /    |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // |      |      |      | MO4  | MO1  |SFT/SP||SFT/SP| MO1  | MO5  |      |      |      |
+    // `-----------------------------------------'`-----------------------------------------'
+    [L0] = KEYMAP(
+        _Q___, _W___, _E___, _R___, _T___, XXXXX, XXXXX, _Y___, _U___, _I___, _O___, _P___,
+        _A___, _S___, _D___, _F___, _G___, XXXXX, XXXXX, _H___, _J___, _K___, _L___, _OSL3,
+        _Z___, _X___, _C___, _V___, _B___, XXXXX, XXXXX, _N___, _M___, _COMM, _DOT_, _SLSH,
+        XXXXX, XXXXX, XXXXX, _MO4_, _MO1_, _S_S_, _S_S_, _MO1_, _MO5_, XXXXX, XXXXX, XXXXX),
 
-/* Qwerty
- * ,-----------------------------------------------------------------------------------.
- * | Esc  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  '   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Ctrl | GUI  |  Alt |Adjust|Lower |Space |Space |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_QWERTY] = KEYMAP( \
-  KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
-  KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT , \
-  KC_LCTRL,KC_LGUI, KC_LALT, ADJUST,  LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
-),
+    // Layer1
+    // ,-----------------------------------------..-----------------------------------------.
+    // | 1    | 2    | 3    | 4    | 5    |      ||      | 6    | 7    | 8    | 9    | 0    |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // | :    | ;    | ,    | -    | .    |      ||      | Left | Down | Up   |Right |      |
+    // |------+------+------+------+------|------||------+------+------+------+------+------|
+    // | /    | @    | [    | \    | ]    |      ||      | ^    | _    |      |      |      |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // `-----------------------------------------'`-----------------------------------------'
+    [L1] = KEYMAP(
+        _1___, _2___, _3___, _4___, _5___, XXXXX, XXXXX, _6___, _7___, _8___, _9___, _0___,
+        _COLN, _SCLN, _COMM, _MINS, _DOT_, XXXXX, XXXXX, _LEFT, _DOWN, _UP__, _RGHT, _____,
+        _SLSH, _AT__, _LBRC, _BSLS, _RBRC, XXXXX, XXXXX, _CIRC, _UNDS, _NOOP, _NOOP, _NOOP,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
-/* Colemak
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   Q  |   W  |   F  |   P  |   G  |   J  |   L  |   U  |   Y  |   ;  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   R  |   S  |   T  |   D  |   H  |   N  |   E  |   I  |   O  |  '   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   K  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_COLEMAK] = KEYMAP( \
-  KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC, \
-  KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT, \
-  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT , \
-  ADJUST,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
-),
+    // Layer2
+    // ,-----------------------------------------.,-----------------------------------------.
+    // | F1   | F2   | F3   | F4   | F5   |      ||      | F6   | F7   | F8   | F9   | F10  |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // | F11  | F12  | F13  | F14  | F15  |      ||      |      |      |      |      |      |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // | F16  | F17  | F18  | F19  | F20  |      ||      |      |      |      |      |RESET |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // `-----------------------------------------'`-----------------------------------------'
+    [L2] = KEYMAP(
+        _F1__, _F2__, _F3__, _F4__, _F5__, XXXXX, XXXXX, _F6__, _F7__, _F8__, _F9__, _F10_,
+        _F11_, _F12_, _F13_, _F14_, _F15_, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _____,
+        _F16_, _F17_, _F18_, _F19_, _F20_, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, RESET,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
-/* Dvorak
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   '  |   ,  |   .  |   P  |   Y  |   F  |   G  |   C  |   R  |   L  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   O  |   E  |   U  |   I  |   D  |   H  |   T  |   N  |   S  |  /   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   ;  |   Q  |   J  |   K  |   X  |   B  |   M  |   W  |   V  |   Z  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_DVORAK] = KEYMAP( \
-  KC_TAB,  KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_BSPC, \
-  KC_ESC,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH, \
-  KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_ENT , \
-  ADJUST,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
-),
+    // Layer3
+    // ,-----------------------------------------.,-----------------------------------------.
+    // | Esc  |      | End  | TO2  |      |      ||      |      |      | Tab  |      |      |
+    // |------+------+------+------+-------------||------+------+------+------+------+------|
+    // | Home | TO1  | Del  |      |      |      ||      | BS   | Kana | TO0  | Eisu |      |
+    // |------+------+------+------+------|------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |Enter |      |      |      |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // `-----------------------------------------'`-----------------------------------------'
+    [L3] = KEYMAP(
+        _ESC_, _NOOP, _END_, _TO2_, _NOOP, XXXXX, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
+        _HOME, _TO1_, _DEL_, _NOOP, _NOOP, XXXXX, XXXXX, _BSPC, _KANA, _TO0_, _EISU, _____,
+        _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _ENT_, _NOOP, _NOOP, _NOOP,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
-/* Lower
- * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |   {  |   }  |  |   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
-[_LOWER] = KEYMAP( \
-  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL, \
-  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),_______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
-),
+    // Layer4
+    // ,-----------------------------------------.,-----------------------------------------.
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // |------+------+------+------+-------------||------+------+------+------+------+------|
+    // | Ctrl |Shift | Alt  | GUI  |      |      ||      |      |      |      |      |      |
+    // |------+------+------+------+------|------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // `-----------------------------------------'`-----------------------------------------'
+    [L4] = KEYMAP(
+        _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        B_CTL, B_SFT, B_ALT, B_GUI, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
-/* Raise
- * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |   =  |   [  |   ]  |  \   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
-[_RAISE] = KEYMAP( \
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL, \
-  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
-),
-
-/* Adjust (Lower + Raise)
- * ,-----------------------------------------------------------------------------------.
- * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|      |      |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-[_ADJUST] =  KEYMAP( \
-  _______, RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
-  _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
-)
-
-
+    // Layer5
+    // ,-----------------------------------------.,-----------------------------------------.
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // |------+------+------+------+-------------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      | GUI  | Alt  |Shift | Ctrl |
+    // |------+------+------+------+------|------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // |------+------+------+------+------+------||------+------+------+------+------+------|
+    // |      |      |      |      |      |      ||      |      |      |      |      |      |
+    // `-----------------------------------------'`-----------------------------------------'
+    [L5] = KEYMAP(
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _NOOP,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, B_GUI, B_ALT, B_SFT, B_CTL,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _NOOP,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 };
 
-#ifdef AUDIO_ENABLE
-float tone_qwerty[][2]     = SONG(QWERTY_SOUND);
-float tone_dvorak[][2]     = SONG(DVORAK_SOUND);
-float tone_colemak[][2]    = SONG(COLEMAK_SOUND);
-#endif
+// 0b00000000
+//   |||||||+- oneshot control
+//   ||||||+-- oneshot shift
+//   |||||+--- oneshot alt
+//   ||||+---- oneshot gui
+//   |||+----- control pressed
+//   ||+------ shift pressed
+//   |+------- alt pressed
+//   +-------- gui pressed
+uint8_t b_mods = 0x00;
+typedef enum {
+    B_MOD_CTL = 0b00000001,
+    B_MOD_SFT = 0b00000010,
+    B_MOD_ALT = 0b00000100,
+    B_MOD_GUI = 0b00001000
+} b_mod;
 
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
+inline static void press_b_mods(b_mod b)
+{
+    b_mods |= (b << 4) | b;
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_qwerty);
-        #endif
-        persistent_default_layer_set(1UL<<_QWERTY);
-      }
-      return false;
-      break;
-    case COLEMAK:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_colemak);
-        #endif
-        persistent_default_layer_set(1UL<<_COLEMAK);
-      }
-      return false;
-      break;
-    case DVORAK:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_dvorak);
-        #endif
-        persistent_default_layer_set(1UL<<_DVORAK);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-      break;
-  }
-  return true;
+inline static void release_b_mods(b_mod b)
+{
+    b_mods &= 0xFF ^ (b << 4); // keep oneshot
 }
+
+inline static void clear_b_mods(void)
+{
+    b_mods = 0x00;
+}
+
+inline static void clear_b_mods_oneshot(void)
+{
+    b_mods &= 0xF0;
+}
+
+inline static void clear_b_mods_pressed(void)
+{
+    b_mods &= 0x0F;
+}
+
+inline static bool is_b_mods_active(b_mod b)
+{
+    return !!(((b_mods >> 4) & b) || (b_mods & b));
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record)
+{
+    if (record->event.pressed)
+    {
+        switch (keycode)
+        {
+        case KC_NO:
+            clear_b_mods();
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_LALT);
+            unregister_code(KC_LGUI);
+            return true;
+        case _BSLS: // LALT(JP_YEN)
+            if (is_b_mods_active(B_MOD_CTL))
+                register_code(KC_LCTL);
+            if (is_b_mods_active(B_MOD_SFT))
+                register_code(KC_LSFT);
+            register_code(KC_LALT);
+            if (is_b_mods_active(B_MOD_GUI))
+                register_code(KC_LGUI);
+            register_code(keycode);
+            if (is_b_mods_active(B_MOD_GUI))
+                unregister_code(KC_LGUI);
+            unregister_code(KC_LALT);
+            if (is_b_mods_active(B_MOD_SFT))
+                unregister_code(KC_LSFT);
+            if (is_b_mods_active(B_MOD_CTL))
+                unregister_code(KC_LCTL);
+            clear_b_mods_oneshot();
+            return true;
+        case KC_A ... KC_EXSEL:
+            if (is_b_mods_active(B_MOD_CTL))
+                register_code(KC_LCTL);
+            if (is_b_mods_active(B_MOD_SFT))
+                register_code(KC_LSFT);
+            if (is_b_mods_active(B_MOD_ALT))
+                register_code(KC_LALT);
+            if (is_b_mods_active(B_MOD_GUI))
+                register_code(KC_LGUI);
+            register_code(keycode);
+            if (is_b_mods_active(B_MOD_GUI))
+                unregister_code(KC_LGUI);
+            if (is_b_mods_active(B_MOD_ALT))
+                unregister_code(KC_LALT);
+            if (is_b_mods_active(B_MOD_SFT))
+                unregister_code(KC_LSFT);
+            if (is_b_mods_active(B_MOD_CTL))
+                unregister_code(KC_LCTL);
+            clear_b_mods_oneshot();
+            return true;
+        case B_CTL:
+            press_b_mods(B_MOD_CTL);
+            return false;
+        case B_SFT:
+            press_b_mods(B_MOD_SFT);
+            return false;
+        case B_ALT:
+            press_b_mods(B_MOD_ALT);
+            return false;
+        case B_GUI:
+            press_b_mods(B_MOD_GUI);
+            return false;
+        }
+    }
+    else
+    {
+        switch (keycode)
+        {
+        case _MO4_: // through
+        case _MO5_:
+            clear_b_mods_pressed();
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_LALT);
+            unregister_code(KC_LGUI);
+            return true;
+        case B_CTL:
+            release_b_mods(B_MOD_CTL);
+            unregister_code(KC_LCTL);
+            return false;
+        case B_SFT:
+            release_b_mods(B_MOD_SFT);
+            unregister_code(KC_LSFT);
+            return false;
+        case B_ALT:
+            release_b_mods(B_MOD_ALT);
+            unregister_code(KC_LALT);
+            return false;
+        case B_GUI:
+            release_b_mods(B_MOD_GUI);
+            unregister_code(KC_LGUI);
+            return false;
+        }
+    }
+    return true;
+};
