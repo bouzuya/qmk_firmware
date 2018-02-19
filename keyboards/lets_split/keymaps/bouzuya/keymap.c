@@ -1,8 +1,7 @@
-// "Let's Split" keymap v15
+// "Let's Split" keymap v16
 #include "lets_split.h"
 #include "action_layer.h"
 #include "keymap_jp.h"
-#include "debug.h"
 
 #define L0 0
 #define L1 1
@@ -288,54 +287,45 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             unregister_code(KC_LGUI);
             return true;
         case _BSLS: // LALT(JP_YEN)
-            if (is_b_mods_active(B_MOD_CTL))
-                register_code(KC_LCTL);
-            if (is_b_mods_active(B_MOD_SFT))
-                register_code(KC_LSFT);
             register_code(KC_LALT);
-            if (is_b_mods_active(B_MOD_GUI))
-                register_code(KC_LGUI);
             register_code(keycode);
-            if (is_b_mods_active(B_MOD_GUI))
-                unregister_code(KC_LGUI);
-            unregister_code(KC_LALT);
-            if (is_b_mods_active(B_MOD_SFT))
-                unregister_code(KC_LSFT);
-            if (is_b_mods_active(B_MOD_CTL))
-                unregister_code(KC_LCTL);
             clear_b_mods_oneshot();
+            if (!is_b_mods_active(B_MOD_GUI))
+                unregister_code(KC_LGUI);
+            if (!is_b_mods_active(B_MOD_ALT))
+                unregister_code(KC_LALT);
+            if (!is_b_mods_active(B_MOD_SFT))
+                unregister_code(KC_LSFT);
+            if (!is_b_mods_active(B_MOD_CTL))
+                unregister_code(KC_LCTL);
             return true;
         case KC_A ... KC_EXSEL:
-            if (is_b_mods_active(B_MOD_CTL))
-                register_code(KC_LCTL);
-            if (is_b_mods_active(B_MOD_SFT))
-                register_code(KC_LSFT);
-            if (is_b_mods_active(B_MOD_ALT))
-                register_code(KC_LALT);
-            if (is_b_mods_active(B_MOD_GUI))
-                register_code(KC_LGUI);
             register_code(keycode);
-            if (is_b_mods_active(B_MOD_GUI))
-                unregister_code(KC_LGUI);
-            if (is_b_mods_active(B_MOD_ALT))
-                unregister_code(KC_LALT);
-            if (is_b_mods_active(B_MOD_SFT))
-                unregister_code(KC_LSFT);
-            if (is_b_mods_active(B_MOD_CTL))
-                unregister_code(KC_LCTL);
             clear_b_mods_oneshot();
+            if (!is_b_mods_active(B_MOD_GUI))
+                unregister_code(KC_LGUI);
+            if (!is_b_mods_active(B_MOD_ALT))
+                unregister_code(KC_LALT);
+            if (!is_b_mods_active(B_MOD_SFT))
+                unregister_code(KC_LSFT);
+            if (!is_b_mods_active(B_MOD_CTL))
+                unregister_code(KC_LCTL);
             return true;
         case B_CTL:
             press_b_mods(B_MOD_CTL);
+            register_code(KC_LCTL);
             return false;
         case B_SFT:
             press_b_mods(B_MOD_SFT);
+            register_code(KC_LSFT);
             return false;
         case B_ALT:
             press_b_mods(B_MOD_ALT);
+            register_code(KC_LALT);
             return false;
         case B_GUI:
             press_b_mods(B_MOD_GUI);
+            register_code(KC_LGUI);
             return false;
         }
     }
@@ -346,26 +336,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         case _MO4_: // through
         case _MO5_:
             clear_b_mods_pressed();
-            unregister_code(KC_LCTL);
-            unregister_code(KC_LSFT);
-            unregister_code(KC_LALT);
-            unregister_code(KC_LGUI);
+            if (!is_b_mods_active(B_MOD_CTL))
+                unregister_code(KC_LCTL);
+            if (!is_b_mods_active(B_MOD_SFT))
+                unregister_code(KC_LSFT);
+            if (!is_b_mods_active(B_MOD_ALT))
+                unregister_code(KC_LALT);
+            if (!is_b_mods_active(B_MOD_GUI))
+                unregister_code(KC_LGUI);
             return true;
         case B_CTL:
             release_b_mods(B_MOD_CTL);
-            unregister_code(KC_LCTL);
+            if (!is_b_mods_active(B_MOD_CTL))
+                unregister_code(KC_LCTL);
             return false;
         case B_SFT:
             release_b_mods(B_MOD_SFT);
-            unregister_code(KC_LSFT);
+            if (!is_b_mods_active(B_MOD_SFT))
+                unregister_code(KC_LSFT);
             return false;
         case B_ALT:
             release_b_mods(B_MOD_ALT);
-            unregister_code(KC_LALT);
+            if (!is_b_mods_active(B_MOD_ALT))
+                unregister_code(KC_LALT);
             return false;
         case B_GUI:
             release_b_mods(B_MOD_GUI);
-            unregister_code(KC_LGUI);
+            if (!is_b_mods_active(B_MOD_GUI))
+                unregister_code(KC_LGUI);
             return false;
         }
     }
