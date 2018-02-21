@@ -206,6 +206,11 @@ static void b_process_others_down(uint16_t keycode)
     b_layer_update();
 }
 
+static void b_process_others_up(uint16_t keycode)
+{
+    unregister_code(keycode);
+}
+
 static void b_process_no_down(uint16_t _keycode)
 {
     b_mod_clear();
@@ -247,6 +252,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     {
         switch (keycode)
         {
+        case KC_A ... KC_EXSEL:
+            b_process_others_up(keycode);
+            return false;
         case B_M_C: // fall-through
         case B_M_S: // fall-through
         case B_M_A: // fall-through
