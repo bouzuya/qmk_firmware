@@ -141,12 +141,14 @@ static void b_layer_update(void)
     b_layer_oneshot_off(cn);
     if (b_layer_oneshot_is_on(cn) || b_layer_pressed_is_on(cn))
         return; // do nothing
-    layer_move(cbn);
     b_mod_pressed_clear();
     b_unregister_mod_if_is_off(B_MOD_GUI);
     b_unregister_mod_if_is_off(B_MOD_ALT);
     b_unregister_mod_if_is_off(B_MOD_SFT);
     b_unregister_mod_if_is_off(B_MOD_CTL);
+    if (cn == cbn)
+        return;
+    layer_move(cbn);
 }
 
 // process
