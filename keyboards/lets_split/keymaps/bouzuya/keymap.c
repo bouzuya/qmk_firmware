@@ -284,16 +284,6 @@ static void b_process_others_up(uint16_t keycode)
     unregister_code(keycode);
 }
 
-static void b_process_no_down(uint16_t _keycode)
-{
-    b_mod_clear();
-    unregister_code(KC_LCTL);
-    unregister_code(KC_LSFT);
-    unregister_code(KC_LALT);
-    unregister_code(KC_LGUI);
-    layer_clear();
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     if (record->event.pressed)
@@ -301,7 +291,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         switch (keycode)
         {
         case KC_NO:
-            b_process_no_down(keycode);
             return false;
         case KC_A ... KC_EXSEL:
             b_process_others_down(keycode);
@@ -328,6 +317,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     {
         switch (keycode)
         {
+        case KC_NO:
+            return false;
         case KC_A ... KC_EXSEL:
             b_process_others_up(keycode);
             return false;
