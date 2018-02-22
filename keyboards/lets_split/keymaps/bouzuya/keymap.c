@@ -1,4 +1,4 @@
-// "Let's Split" keymap v17
+// "Let's Split" keymap v18
 #include "lets_split.h"
 #include "b_keycode.h"
 #include "b_layer.h"
