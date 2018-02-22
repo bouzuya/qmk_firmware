@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _Q___, _W___, _E___, _R___, _T___, RESET, XXXXX, _Y___, _U___, _I___, _O___, _P___,
         _A___, _S___, _D___, _F___, _G___, XXXXX, XXXXX, _H___, _J___, _K___, _L___, B_L_3,
         _Z___, _X___, _C___, _V___, _B___, XXXXX, XXXXX, _N___, _M___, _COMM, _DOT_, _SLSH,
-        XXXXX, XXXXX, XXXXX, B_L_4, B_L_1, _SPC_, _SPC_, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
+        _LSFT, _RSFT, XXXXX, B_L_4, B_L_1, _SPC_, _SPC_, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
 
     // Layer1
     // ,----------------------------------.              ,----------------------------------.
