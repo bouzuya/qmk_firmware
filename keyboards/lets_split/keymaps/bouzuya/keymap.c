@@ -35,13 +35,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // |------+------+------+------+------|              |------+------+------+------+------|
     // | Z    | X    | C    | V    | B    |              | N    | M    | ,    | .    | /    |
     // `--------------------+------+------+------.,------+------+------+--------------------'
-    //                      | L4   | L1   | SP   || SP   | L1   | L5   |
+    //                      | L4   | L1   | SP   || L2   | L1   | L5   |
     //                      `--------------------'`--------------------'
     [L0] = KEYMAP(
         _Q___, _W___, _E___, _R___, _T___, RESET, XXXXX, _Y___, _U___, _I___, _O___, _P___,
         _A___, _S___, _D___, _F___, _G___, XXXXX, XXXXX, _H___, _J___, _K___, _L___, B_L_3,
         _Z___, _X___, _C___, _V___, _B___, XXXXX, XXXXX, _N___, _M___, _COMM, _DOT_, _SLSH,
-        _LSFT, _RSFT, XXXXX, B_L_4, B_L_1, _SPC_, _SPC_, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
+        _LSFT, _RSFT, XXXXX, B_L_4, B_L_1, _SPC_, B_L_2, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
 
     // Layer1
     // ,----------------------------------.              ,----------------------------------.
@@ -77,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Layer3
     // ,----------------------------------.              ,----------------------------------.
-    // | Esc  |      | End  | L2   |      |              |      |      | Tab  |      |      |
+    // | Esc  |      | End  |      |      |              |      |      | Tab  |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
     // | Home |      | Del  |      |      |              | BS   | Kana |      | Eisu |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L3] = KEYMAP(
-        _ESC_, _NOOP, _END_, B_L_2, _NOOP, RESET, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
+        _ESC_, _NOOP, _END_, _NOOP, _NOOP, RESET, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
         _HOME, _NOOP, _DEL_, _NOOP, _NOOP, XXXXX, XXXXX, _BSPC, _KANA, _NOOP, _EISU, _____,
         _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _ENT_, _NOOP, _NOOP, _NOOP,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
