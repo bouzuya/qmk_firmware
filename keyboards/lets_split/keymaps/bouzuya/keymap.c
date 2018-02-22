@@ -310,6 +310,7 @@ static void b_process_mod_down(uint16_t keycode)
     uint8_t mod_keycode = mn + KC_LCTL;
     b_mod_on(mod);
     register_code(mod_keycode);
+
     b_layer_update();
 
     debug_b();
@@ -334,7 +335,10 @@ static void b_process_others_down(uint16_t keycode)
     debug_b();
 
     register_code(keycode);
+
     b_mod_oneshot_clear();
+    b_unregister_mod_all_if_is_off();
+
     b_layer_update();
 
     debug_b();
