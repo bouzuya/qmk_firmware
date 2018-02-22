@@ -185,6 +185,14 @@ static void b_unregister_mod_if_is_off(b_mod_t b)
     unregister_code(mod_keycode);
 }
 
+static void b_unregister_mod_all_if_is_off(void)
+{
+    b_unregister_mod_if_is_off(B_MOD_GUI);
+    b_unregister_mod_if_is_off(B_MOD_ALT);
+    b_unregister_mod_if_is_off(B_MOD_SFT);
+    b_unregister_mod_if_is_off(B_MOD_CTL);
+}
+
 static void b_layer_update(void)
 {
     uint8_t cn = biton32(layer_state);
@@ -195,10 +203,7 @@ static void b_layer_update(void)
 
     b_layer_clear_layer(cn);
     b_mod_pressed_clear();
-    b_unregister_mod_if_is_off(B_MOD_GUI);
-    b_unregister_mod_if_is_off(B_MOD_ALT);
-    b_unregister_mod_if_is_off(B_MOD_SFT);
-    b_unregister_mod_if_is_off(B_MOD_CTL);
+    b_unregister_mod_all_if_is_off();
     if (cn == cbn)
         return;
     layer_move(cbn);
@@ -219,10 +224,7 @@ static void b_process_reset_down(void)
     layer_clear();
 
     b_mod_clear();
-    b_unregister_mod_if_is_off(B_MOD_GUI);
-    b_unregister_mod_if_is_off(B_MOD_ALT);
-    b_unregister_mod_if_is_off(B_MOD_SFT);
-    b_unregister_mod_if_is_off(B_MOD_CTL);
+    b_unregister_mod_all_if_is_off();
 }
 
 static void b_process_reset_up(void)
