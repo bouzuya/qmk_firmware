@@ -198,15 +198,21 @@ static void b_layer_update(void)
     uint8_t cn = biton32(layer_state);
     uint8_t cbn = biton32(b_layer_get_layer(cn));
     b_layer_oneshot_off(cn);
-    if (b_layer_oneshot_is_on(cn) || b_layer_pressed_is_on(cn))
-        return; // do nothing
+    if (b_layer_is_on(cn))
+    {
+        // do nothing
+    }
+    else
+    {
+        b_layer_clear_layer(cn);
+        b_mod_pressed_clear();
+        b_unregister_mod_all_if_is_off();
+        if (cn != cbn)
+        {
+            layer_move(cbn);
+        }
+    }
 
-    b_layer_clear_layer(cn);
-    b_mod_pressed_clear();
-    b_unregister_mod_all_if_is_off();
-    if (cn == cbn)
-        return;
-    layer_move(cbn);
 }
 
 // process
@@ -253,14 +259,14 @@ static void b_process_layer_down(uint16_t keycode)
         uint8_t bn;
 
         b_layer_oneshot_off(cn);
-        if (!b_layer_pressed_is_on(cn))
+        if (b_layer_is_on(cn))
         {
-            b_layer_clear_layer(cn);
-            bn = cbn;
+            bn = cn;
         }
         else
         {
-            bn = cn;
+            b_layer_clear_layer(cn);
+            bn = cbn;
         }
         b_layer_oneshot_on(tn);
         b_layer_pressed_on(tn);
@@ -280,7 +286,7 @@ static void b_process_layer_up(uint16_t keycode)
     uint8_t cn = biton32(layer_state);
     uint8_t tbn = biton32(b_layer_get_layer(tn));
     b_layer_pressed_off(tn);
-    if (b_layer_oneshot_is_on(tn) || b_layer_pressed_is_on(tn))
+    if (b_layer_is_on(tn))
     {
         // do nothing
     }

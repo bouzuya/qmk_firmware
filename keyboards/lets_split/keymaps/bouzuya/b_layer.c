@@ -42,6 +42,13 @@ void b_layer_pressed_on(uint8_t n)
     b_layers[n] |= 0b01000000;
 }
 
+// b_layer oneshot and pressed
+
+bool b_layer_is_on(uint8_t n)
+{
+    return b_layer_oneshot_is_on(n) || b_layer_pressed_is_on(n);
+}
+
 // b_layer layer
 
 void b_layer_clear_layer(uint8_t n)
