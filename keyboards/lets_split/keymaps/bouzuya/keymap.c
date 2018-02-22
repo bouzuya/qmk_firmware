@@ -170,6 +170,7 @@ static void debug_b_mod(void)
 
 static void debug_b(void)
 {
+    dprintf("%u ", biton32(layer_state));
     debug_b_layer();
     dprint(" ");
     debug_b_mod();
@@ -195,6 +196,9 @@ static void b_unregister_mod_all_if_is_off(void)
 
 static void b_layer_update(void)
 {
+    dprintln("b_layer_update: ");
+    debug_b();
+
     uint8_t cn = biton32(layer_state);
     uint8_t cbn = biton32(b_layer_get_layer(cn));
     b_layer_oneshot_off(cn);
@@ -213,6 +217,7 @@ static void b_layer_update(void)
         }
     }
 
+    debug_b();
 }
 
 // process
