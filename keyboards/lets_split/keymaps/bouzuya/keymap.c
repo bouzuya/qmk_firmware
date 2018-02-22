@@ -125,6 +125,56 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // utils
 
+static void debug_b_layer(void)
+{
+    dprint("[");
+    for (uint8_t i = 0; i < 6; i++)
+    {
+        dprintf("%u", b_layer_get_layer(i));
+        if (b_layer_oneshot_is_on(i))
+            dprint("o");
+        else
+            dprint("_");
+        if (b_layer_pressed_is_on(i))
+            dprint("p");
+        else
+            dprint("_");
+        if (i != 5)
+            dprint(", ");
+    }
+    dprint("]");
+}
+
+static void debug_b_mod(void)
+{
+    dprint("(");
+    if (b_mod_is_on(B_MOD_CTL))
+        dprint("C");
+    else
+        dprint("_");
+    if (b_mod_is_on(B_MOD_SFT))
+        dprint("S");
+    else
+        dprint("_");
+    if (b_mod_is_on(B_MOD_ALT))
+        dprint("A");
+    else
+        dprint("_");
+    if (b_mod_is_on(B_MOD_GUI))
+        dprint("G");
+    else
+        dprint("_");
+    dprint(")");
+}
+
+static void debug_b(void)
+{
+    debug_b_layer();
+    dprint(" ");
+    debug_b_mod();
+    dprint("\n");
+}
+
 static void b_unregister_mod_if_is_off(b_mod_t b)
 {
     if (b_mod_is_on(b))
