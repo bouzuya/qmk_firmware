@@ -192,6 +192,8 @@ static void b_layer_update(void)
     b_layer_oneshot_off(cn);
     if (b_layer_oneshot_is_on(cn) || b_layer_pressed_is_on(cn))
         return; // do nothing
+
+    b_layer_clear_layer(cn);
     b_mod_pressed_clear();
     b_unregister_mod_if_is_off(B_MOD_GUI);
     b_unregister_mod_if_is_off(B_MOD_ALT);
@@ -212,7 +214,7 @@ static void b_process_reset_down(void)
     {
         b_layer_oneshot_off(i);
         b_layer_pressed_off(i);
-        b_layer_set_layer(i, 0);
+        b_layer_clear_layer(i);
     }
     layer_clear();
 
@@ -251,7 +253,7 @@ static void b_process_layer_down(uint16_t keycode)
         b_layer_oneshot_off(cn);
         if (!b_layer_pressed_is_on(cn))
         {
-            b_layer_set_layer(cn, 0);
+            b_layer_clear_layer(cn);
             bn = cbn;
         }
         else
@@ -282,7 +284,7 @@ static void b_process_layer_up(uint16_t keycode)
     }
     else
     {
-        b_layer_set_layer(tn, 0);
+        b_layer_clear_layer(tn);
         if (cn == tn)
         {
             layer_move(tbn);

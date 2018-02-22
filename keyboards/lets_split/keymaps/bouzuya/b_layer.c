@@ -44,6 +44,11 @@ void b_layer_pressed_on(uint8_t n)
 
 // b_layer layer
 
+void b_layer_clear_layer(uint8_t n)
+{
+    b_layer_set_layer(n, 0);
+}
+
 uint8_t b_layer_get_layer(uint8_t n)
 {
     return b_layers[n] & 0b00011111;
