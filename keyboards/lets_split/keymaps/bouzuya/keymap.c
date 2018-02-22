@@ -13,7 +13,8 @@
 
 enum custom_keycodes
 {
-    B_M_C = SAFE_RANGE,
+    B_RST = SAFE_RANGE,
+    B_M_C,
     B_M_S,
     B_M_A,
     B_M_G,
@@ -94,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ,----------------------------------.              ,----------------------------------.
     // |      |      |      |      |      |              |      |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // | Ctrl |Shift | Alt  | GUI  |      |              |      |      |      |      |      |
+    // | Ctrl |Shift | Alt  | GUI  | ____ |              |      |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
     // |      |      |      |      |      |              |      |      |      |      |      |
     // `--------------------+------+------+------.,------+------+------+--------------------'
@@ -102,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //                      `--------------------'`--------------------'
     [L4] = KEYMAP(
         _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, RESET, XXXXX, _____, _____, _____, _____, _____,
-        B_M_C, B_M_S, B_M_A, B_M_G, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        B_M_C, B_M_S, B_M_A, B_M_G, B_RST, XXXXX, XXXXX, _____, _____, _____, _____, _____,
         _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
@@ -110,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ,----------------------------------.              ,----------------------------------.
     // |      |      |      |      |      |              |      |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // |      |      |      |      |      |              |      | GUI  | Alt  |Shift | Ctrl |
+    // |      |      |      |      |      |              | ____ | GUI  | Alt  |Shift | Ctrl |
     // |------+------+------+------+------|              |------+------+------+------+------|
     // |      |      |      |      |      |              |      |      |      |      |      |
     // `--------------------+------+------+------.,------+------+------+--------------------'
@@ -118,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //                      `--------------------'`--------------------'
     [L5] = KEYMAP(
         _____, _____, _____, _____, _____, RESET, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _NOOP,
-        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, B_M_G, B_M_A, B_M_S, B_M_C,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, B_RST, B_M_G, B_M_A, B_M_S, B_M_C,
         _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _NOOP,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 };
@@ -202,6 +203,28 @@ static void b_layer_update(void)
 }
 
 // process
+static void b_process_reset_down(void)
+{
+    for (uint8_t i = 0; i < 32; i++) {
+        b_layer_oneshot_off(i);
+        b_layer_pressed_off(i);
+        b_layer_set_layer(i, 0);
+    }
+    layer_clear();
+
+    b_mod_clear();
+    b_unregister_mod_if_is_off(B_MOD_GUI);
+    b_unregister_mod_if_is_off(B_MOD_ALT);
+    b_unregister_mod_if_is_off(B_MOD_SFT);
+    b_unregister_mod_if_is_off(B_MOD_CTL);
+
+    debug_b();
+}
+
+static void b_process_reset_up(void)
+{
+    // do nothing
+}
 
 static void b_process_layer_down(uint16_t keycode)
 {
@@ -283,6 +306,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         case KC_A ... KC_EXSEL:
             b_process_others_down(keycode);
             return false;
+        case B_RST:
+            b_process_reset_down();
+            return false;
         case B_M_C: // fall-through
         case B_M_S: // fall-through
         case B_M_A: // fall-through
@@ -304,6 +330,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         {
         case KC_A ... KC_EXSEL:
             b_process_others_up(keycode);
+            return false;
+        case B_RST:
+            b_process_reset_up();
             return false;
         case B_M_C: // fall-through
         case B_M_S: // fall-through
