@@ -205,7 +205,11 @@ static void b_layer_update(void)
 // process
 static void b_process_reset_down(void)
 {
-    for (uint8_t i = 0; i < 32; i++) {
+    dprintln("b_process_reset_down: ");
+    debug_b();
+
+    for (uint8_t i = 0; i < 32; i++)
+    {
         b_layer_oneshot_off(i);
         b_layer_pressed_off(i);
         b_layer_set_layer(i, 0);
@@ -217,71 +221,108 @@ static void b_process_reset_down(void)
     b_unregister_mod_if_is_off(B_MOD_ALT);
     b_unregister_mod_if_is_off(B_MOD_SFT);
     b_unregister_mod_if_is_off(B_MOD_CTL);
-
-    debug_b();
 }
 
 static void b_process_reset_up(void)
 {
+    dprintln("b_process_reset_up: ");
+    debug_b();
+
     // do nothing
 }
 
 static void b_process_layer_down(uint16_t keycode)
 {
+    dprintln("b_process_layer_down: ");
+    debug_b();
+
     uint8_t tn = keycode - B_L_0;
     uint8_t cn = biton32(layer_state);
     b_layer_oneshot_on(tn);
     b_layer_pressed_on(tn);
     b_layer_set_layer(tn, cn);
     layer_move(tn);
+
+    debug_b();
 }
 
 static void b_process_layer_up(uint16_t keycode)
 {
+    dprintln("b_process_layer_up: ");
+    debug_b();
+
     uint8_t tn = keycode - B_L_0;
     uint8_t cn = biton32(layer_state);
     uint8_t tbn = biton32(b_layer_get_layer(tn));
     b_layer_pressed_off(tn);
     if (b_layer_oneshot_is_on(tn) || b_layer_pressed_is_on(tn))
-        return; // do nothing
-    if (cn == tn)
     {
-        layer_move(tbn);
+        // do nothing
     }
     else
     {
-        b_layer_set_layer(cn, tbn);
+        b_layer_set_layer(tn, 0);
+        if (cn == tn)
+        {
+            layer_move(tbn);
+        }
+        else
+        {
+            b_layer_set_layer(cn, tbn);
+        }
     }
+
+    debug_b();
 }
 
 static void b_process_mod_down(uint16_t keycode)
 {
+    dprintln("b_process_mod_down: ");
+    debug_b();
+
     uint8_t mn = keycode - B_M_C;
     b_mod_t mod = (1UL << mn);
     uint8_t mod_keycode = mn + KC_LCTL;
     b_mod_on(mod);
     register_code(mod_keycode);
     b_layer_update();
+
+    debug_b();
 }
 
 static void b_process_mod_up(uint16_t keycode)
 {
+    dprintln("b_process_mod_up: ");
+    debug_b();
+
     uint8_t mn = keycode - B_M_C;
     b_mod_t mod = (1UL << mn);
     b_mod_pressed_off(mod);
     b_unregister_mod_if_is_off(mod);
+
+    debug_b();
 }
 
 static void b_process_others_down(uint16_t keycode)
 {
+    dprintln("b_process_others_down: ");
+    debug_b();
+
     register_code(keycode);
     b_mod_oneshot_clear();
     b_layer_update();
+
+    debug_b();
 }
 
 static void b_process_others_up(uint16_t keycode)
 {
+    dprintln("b_process_others_up: ");
+    debug_b();
+
     unregister_code(keycode);
+
+    debug_b();
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
