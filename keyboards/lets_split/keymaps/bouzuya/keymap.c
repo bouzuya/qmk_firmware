@@ -238,10 +238,31 @@ static void b_process_layer_down(uint16_t keycode)
 
     uint8_t tn = keycode - B_L_0;
     uint8_t cn = biton32(layer_state);
-    b_layer_oneshot_on(tn);
-    b_layer_pressed_on(tn);
-    b_layer_set_layer(tn, cn);
-    layer_move(tn);
+    if (cn == tn)
+    {
+        b_layer_oneshot_on(tn);
+        b_layer_pressed_on(tn);
+    }
+    else
+    {
+        uint8_t cbn = biton32(b_layer_get_layer(cn));
+        uint8_t bn;
+
+        b_layer_oneshot_off(cn);
+        if (!b_layer_pressed_is_on(cn))
+        {
+            b_layer_set_layer(cn, 0);
+            bn = cbn;
+        }
+        else
+        {
+            bn = cn;
+        }
+        b_layer_oneshot_on(tn);
+        b_layer_pressed_on(tn);
+        b_layer_set_layer(tn, bn);
+        layer_move(tn);
+    }
 
     debug_b();
 }
