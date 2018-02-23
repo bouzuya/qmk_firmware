@@ -149,20 +149,40 @@ static void debug_b_layer(void)
 static void debug_b_mod(void)
 {
     dprint("(");
-    if (b_mod_is_on(B_MOD_CTL))
-        dprint("C");
+    dprint("C");
+    if (b_mod_oneshot_is_on(B_MOD_CTL))
+        dprint("o");
     else
         dprint("_");
-    if (b_mod_is_on(B_MOD_SFT))
-        dprint("S");
+    if (b_mod_pressed_is_on(B_MOD_CTL))
+        dprint("p");
     else
         dprint("_");
-    if (b_mod_is_on(B_MOD_ALT))
-        dprint("A");
+    dprint("S");
+    if (b_mod_oneshot_is_on(B_MOD_SFT))
+        dprint("o");
     else
         dprint("_");
-    if (b_mod_is_on(B_MOD_GUI))
-        dprint("G");
+    if (b_mod_pressed_is_on(B_MOD_SFT))
+        dprint("p");
+    else
+        dprint("_");
+    dprint("A");
+    if (b_mod_oneshot_is_on(B_MOD_ALT))
+        dprint("o");
+    else
+        dprint("_");
+    if (b_mod_pressed_is_on(B_MOD_ALT))
+        dprint("p");
+    else
+        dprint("_");
+    dprint("G");
+    if (b_mod_oneshot_is_on(B_MOD_GUI))
+        dprint("o");
+    else
+        dprint("_");
+    if (b_mod_pressed_is_on(B_MOD_GUI))
+        dprint("p");
     else
         dprint("_");
     dprint(")");
