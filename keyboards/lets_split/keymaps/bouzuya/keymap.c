@@ -253,10 +253,17 @@ static void b_process_layer_down(uint16_t keycode)
 
     uint8_t tn = keycode - B_L_0;
     uint8_t cn = biton32(layer_state);
+    uint8_t cbn = b_layer_get_layer(cn);
     b_layer_oneshot_on(tn);
     b_layer_pressed_on(tn);
+    // repeat. e.g. L0 -> L1 -> L1
     if (cn != tn)
     {
+        // loop. e.g. L0 -> L1 -> L3 -> L1
+        if (tn == cbn)
+        {
+            b_layer_set_layer(cn, b_layer_get_layer(tn));
+        }
         b_layer_set_layer(tn, cn);
         layer_move(tn);
     }
