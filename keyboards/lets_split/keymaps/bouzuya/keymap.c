@@ -235,6 +235,7 @@ static void b_layer_update(void)
 
     uint8_t cn = biton32(layer_state);
     uint8_t cbn = b_layer_get_layer(cn);
+    uint8_t cbs = b_layer_get_layer_state(cn);
     b_layer_oneshot_off(cn);
     if (b_layer_is_on(cn))
     {
@@ -247,7 +248,7 @@ static void b_layer_update(void)
         b_unregister_mod_all_if_is_off();
         if (cn != cbn)
         {
-            layer_move(cbn);
+            layer_state_set(cbs);
         }
     }
 
@@ -287,6 +288,7 @@ static void b_process_layer_down(uint16_t keycode)
 
     uint8_t tn = keycode - B_L_0;
     uint8_t cn = biton32(layer_state);
+    uint8_t cns = layer_state;
     uint8_t cbn = b_layer_get_layer(cn);
     b_layer_oneshot_on(tn);
     b_layer_pressed_on(tn);
@@ -296,10 +298,10 @@ static void b_process_layer_down(uint16_t keycode)
         // loop. e.g. L0 -> L1 -> L3 -> L1
         if (tn == cbn)
         {
-            b_layer_set_layer(cn, b_layer_get_layer(tn));
+            b_layer_set_layer_state(cn, b_layer_get_layer_state(tn));
         }
-        b_layer_set_layer(tn, cn);
-        layer_move(tn);
+        b_layer_set_layer_state(tn, cns);
+        layer_on(tn);
     }
 
     debug_b();
@@ -312,7 +314,7 @@ static void b_process_layer_up(uint16_t keycode)
 
     uint8_t tn = keycode - B_L_0;
     uint8_t cn = biton32(layer_state);
-    uint8_t tbn = b_layer_get_layer(tn);
+    uint32_t tbs = b_layer_get_layer_state(tn);
     b_layer_pressed_off(tn);
     if (b_layer_is_on(tn))
     {
@@ -323,11 +325,11 @@ static void b_process_layer_up(uint16_t keycode)
         b_layer_clear_layer(tn);
         if (cn == tn)
         {
-            layer_move(tbn);
+            layer_state_set(tbs);
         }
         else
         {
-            b_layer_set_layer(cn, tbn);
+            b_layer_set_layer_state(cn, tbs);
         }
     }
 
