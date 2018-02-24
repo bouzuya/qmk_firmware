@@ -56,13 +56,6 @@ bool b_layer_is_on(uint8_t n)
     return b_layer_oneshot_is_on(n) || b_layer_pressed_is_on(n);
 }
 
-// b_layer layer
-
-void b_layer_clear_layer(uint8_t n)
-{
-    b_layer_set_layer_state(n, 0);
-}
-
 // b_layer layer_state
 
 void b_layer_clear_layer_state(uint8_t n)

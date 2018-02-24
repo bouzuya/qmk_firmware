@@ -243,7 +243,7 @@ static void b_layer_update(void)
     }
     else
     {
-        b_layer_clear_layer(cn);
+        b_layer_clear_layer_state(cn);
         b_mod_pressed_clear();
         b_unregister_mod_all_if_is_off();
         if (cn != cbn)
@@ -263,7 +263,7 @@ static void b_process_reset_down(void)
     {
         b_layer_oneshot_off(i);
         b_layer_pressed_off(i);
-        b_layer_clear_layer(i);
+        b_layer_clear_layer_state(i);
     }
     layer_clear();
 
@@ -320,7 +320,7 @@ static void b_process_layer_up(uint16_t keycode)
     }
     else
     {
-        b_layer_clear_layer(tn);
+        b_layer_clear_layer_state(tn);
         if (cn == tn)
             layer_state_set(tbs);
         else
