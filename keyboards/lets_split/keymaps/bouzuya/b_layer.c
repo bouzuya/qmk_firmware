@@ -72,3 +72,20 @@ void b_layer_set_layer(uint8_t n, uint8_t ln)
 {
     b_layers[n].layer = 1UL << ln;
 }
+
+// b_layer layer_state
+
+void b_layer_clear_layer_state(uint8_t n)
+{
+    b_layers[n].layer = 0;
+}
+
+uint32_t b_layer_get_layer_state(uint8_t n)
+{
+    return b_layers[n].layer;
+}
+
+void b_layer_set_layer_state(uint8_t n, uint32_t ls)
+{
+    b_layers[n].layer = ls;
+}
