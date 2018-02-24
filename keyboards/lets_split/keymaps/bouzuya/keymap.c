@@ -41,10 +41,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //                      | L4   | L1   | SP   || L2   | L1   | L5   |
     //                      `--------------------'`--------------------'
     [L0] = KEYMAP(
-        _Q___, _W___, _E___, _R___, _T___, RESET, XXXXX, _Y___, _U___, _I___, _O___, _P___,
+        _Q___, _W___, _E___, _R___, _T___, XXXXX, XXXXX, _Y___, _U___, _I___, _O___, _P___,
         _A___, _S___, _D___, _F___, _G___, XXXXX, XXXXX, _H___, _J___, _K___, _L___, B_L_3,
         _Z___, _X___, _C___, _V___, _B___, XXXXX, XXXXX, _N___, _M___, _COMM, _DOT_, _SLSH,
-        _LSFT, _RSFT, XXXXX, B_L_4, B_L_1, _SPC_, B_L_2, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
+        XXXXX, XXXXX, XXXXX, B_L_4, B_L_1, _SPC_, B_L_2, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
 
     // Layer1
     // ,----------------------------------.              ,----------------------------------.
@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L1] = KEYMAP(
-        _1___, _2___, _3___, _4___, _5___, RESET, XXXXX, _6___, _7___, _8___, _9___, _0___,
+        _1___, _2___, _3___, _4___, _5___, XXXXX, XXXXX, _6___, _7___, _8___, _9___, _0___,
         _COLN, _SCLN, _COMM, _MINS, _DOT_, XXXXX, XXXXX, _LEFT, _DOWN, _UP__, _RGHT, _____,
         _SLSH, _AT__, _LBRC, _BSLS, _RBRC, XXXXX, XXXXX, _CIRC, _UNDS, _NOOP, _NOOP, _NOOP,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L2] = KEYMAP(
-        _F1__, _F2__, _F3__, _F4__, _F5__, RESET, XXXXX, _F6__, _F7__, _F8__, _F9__, _F10_,
+        _F1__, _F2__, _F3__, _F4__, _F5__, XXXXX, XXXXX, _F6__, _F7__, _F8__, _F9__, _F10_,
         _F11_, _F12_, _F13_, _F14_, _F15_, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _____,
         _F16_, _F17_, _F18_, _F19_, _F20_, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, RESET,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
@@ -82,47 +82,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ,----------------------------------.              ,----------------------------------.
     // | Esc  |      | End  |      |      |              |      |      | Tab  |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // | Home |      | Del  |      |      |              | BS   | Kana |      | Eisu |      |
+    // | Home |      | Del  |      |      |              | BS   |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
     // |      |      |      |      |      |              |      |Enter |      |      |      |
     // `--------------------+------+------+------.,------+------+------+--------------------'
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L3] = KEYMAP(
-        _ESC_, _NOOP, _END_, _NOOP, _NOOP, RESET, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
-        _HOME, _NOOP, _DEL_, _NOOP, _NOOP, XXXXX, XXXXX, _BSPC, _KANA, _NOOP, _EISU, _____,
+        _ESC_, _NOOP, _END_, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
+        _HOME, _NOOP, _DEL_, _NOOP, _NOOP, XXXXX, XXXXX, _BSPC, _NOOP, _NOOP, _NOOP, _____,
         _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _ENT_, _NOOP, _NOOP, _NOOP,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
     // Layer4
     // ,----------------------------------.              ,----------------------------------.
-    // |      |      | ____ |      |      |              |      |      |      |      |      |
+    // |      | Eisu | ____ |      |      |              |      |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // | Ctrl |Shift | Alt  | GUI  | ____ |              |      |      |      |      |      |
+    // | Ctrl |Shift | Alt  | GUI  |      |              |      |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
     // |      |      |      |      |      |              |      |      |      |      |      |
     // `--------------------+------+------+------.,------+------+------+--------------------'
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L4] = KEYMAP(
-        _NOOP, _NOOP, B_RST, _NOOP, _NOOP, RESET, XXXXX, _____, _____, _____, _____, _____,
-        B_M_C, B_M_S, B_M_A, B_M_G, B_RST, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        _NOOP, _EISU, B_RST, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        B_M_C, B_M_S, B_M_A, B_M_G, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
         _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
     // Layer5
     // ,----------------------------------.              ,----------------------------------.
-    // |      |      |      |      |      |              |      |      | ____ |      |      |
+    // |      |      |      |      |      |              |      |      | ____ | Kana |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // |      |      |      |      |      |              | ____ | GUI  | Alt  |Shift | Ctrl |
+    // |      |      |      |      |      |              |      | GUI  | Alt  |Shift | Ctrl |
     // |------+------+------+------+------|              |------+------+------+------+------|
     // |      |      |      |      |      |              |      |      |      |      |      |
     // `--------------------+------+------+------.,------+------+------+--------------------'
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L5] = KEYMAP(
-        _____, _____, _____, _____, _____, RESET, XXXXX, _NOOP, _NOOP, B_RST, _NOOP, _NOOP,
-        _____, _____, _____, _____, _____, XXXXX, XXXXX, B_RST, B_M_G, B_M_A, B_M_S, B_M_C,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, B_RST, _KANA, _NOOP,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, B_M_G, B_M_A, B_M_S, B_M_C,
         _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _NOOP,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 };
