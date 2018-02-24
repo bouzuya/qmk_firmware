@@ -60,17 +60,7 @@ bool b_layer_is_on(uint8_t n)
 
 void b_layer_clear_layer(uint8_t n)
 {
-    b_layer_set_layer(n, 0);
-}
-
-uint8_t b_layer_get_layer(uint8_t n)
-{
-    return biton32(b_layers[n].layer);
-}
-
-void b_layer_set_layer(uint8_t n, uint8_t ln)
-{
-    b_layers[n].layer = 1UL << ln;
+    b_layer_set_layer_state(n, 0);
 }
 
 // b_layer layer_state

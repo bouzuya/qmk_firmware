@@ -18,8 +18,6 @@ void b_layer_pressed_on(uint8_t n);
 bool b_layer_is_on(uint8_t n);
 
 void b_layer_clear_layer(uint8_t n);
-uint8_t b_layer_get_layer(uint8_t n);
-void b_layer_set_layer(uint8_t n, uint8_t ln);
 
 void b_layer_clear_layer_state(uint8_t n);
 uint32_t b_layer_get_layer_state(uint8_t n);

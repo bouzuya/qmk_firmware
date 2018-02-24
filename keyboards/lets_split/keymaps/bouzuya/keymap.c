@@ -234,8 +234,8 @@ static void b_layer_update(void)
     debug_b();
 
     uint8_t cn = biton32(layer_state);
-    uint8_t cbn = b_layer_get_layer(cn);
-    uint8_t cbs = b_layer_get_layer_state(cn);
+    uint32_t cbs = b_layer_get_layer_state(cn);
+    uint8_t cbn = biton32(cbs);
     b_layer_oneshot_off(cn);
     if (b_layer_is_on(cn))
     {
@@ -287,9 +287,10 @@ static void b_process_layer_down(uint16_t keycode)
     debug_b();
 
     uint8_t tn = keycode - B_L_0;
-    uint8_t cn = biton32(layer_state);
-    uint8_t cns = layer_state;
-    uint8_t cbn = b_layer_get_layer(cn);
+    uint32_t cs = layer_state;
+    uint8_t cn = biton32(cs);
+    uint32_t cbs = b_layer_get_layer_state(cn);
+    uint8_t cbn = biton32(cbs);
     b_layer_oneshot_on(tn);
     b_layer_pressed_on(tn);
     // repeat. e.g. L0 -> L1 -> L1
@@ -300,7 +301,7 @@ static void b_process_layer_down(uint16_t keycode)
         {
             b_layer_set_layer_state(cn, b_layer_get_layer_state(tn));
         }
-        b_layer_set_layer_state(tn, cns);
+        b_layer_set_layer_state(tn, cs);
         layer_on(tn);
     }
 
