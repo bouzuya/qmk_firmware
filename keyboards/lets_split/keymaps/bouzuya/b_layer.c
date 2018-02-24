@@ -13,7 +13,7 @@ typedef struct
     uint8_t state;
 } b_layer_state_t;
 
-b_layer_state_t b_layers[32] = {};
+b_layer_state_t b_layers[B_LAYER_LAYER_COUNT] = {};
 
 // b_layer_oneshot
 

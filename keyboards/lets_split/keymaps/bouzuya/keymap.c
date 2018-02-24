@@ -1,4 +1,7 @@
 // "Let's Split" keymap v19
+
+#define B_LAYER_LAYER_COUNT 6
+
 #include "lets_split.h"
 #include "b_keycode.h"
 #include "b_layer.h"

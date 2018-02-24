@@ -3,6 +3,10 @@
 
 #include "action_layer.h"
 
+#ifndef B_LAYER_LAYER_COUNT
+#define B_LAYER_LAYER_COUNT 32
+#endif
+
 bool b_layer_oneshot_is_on(uint8_t n);
 void b_layer_oneshot_off(uint8_t n);
 void b_layer_oneshot_on(uint8_t n);
