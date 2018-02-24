@@ -129,12 +129,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // utils
 
+static void debug_b_layer_state(uint32_t ls)
+{
+    dprintf("%u:", biton32(ls));
+    for (uint8_t i = B_LAYER_LAYER_COUNT; i > 0; i--)
+        if (ls & (1UL << i))
+            dprint("1");
+        else
+            dprint("0");
+}
+
 static void debug_b_layer(void)
 {
     dprint("[");
     for (uint8_t i = 0; i < 6; i++)
     {
-        dprintf("%u", b_layer_get_layer(i));
+        debug_b_layer_state(b_layer_get_layer_state(i));
         if (b_layer_oneshot_is_on(i))
             dprint("o");
         else
@@ -193,7 +203,8 @@ static void debug_b_mod(void)
 
 static void debug_b(void)
 {
-    dprintf("%u ", biton32(layer_state));
+    debug_b_layer_state(layer_state);
+    dprint(" ");
     debug_b_layer();
     dprint(" ");
     debug_b_mod();
