@@ -95,6 +95,10 @@
 #define _KANA KC_LANG1
 #define _EISU KC_LANG2
 
+#define _MUTE KC_MUTE
+#define _VOLU KC_VOLU
+#define _VOLD KC_VOLD
+
 #define _ALT_ KC_LALT
 #define _CTL_ KC_LCTL
 #define _SFT_ KC_LSFT
