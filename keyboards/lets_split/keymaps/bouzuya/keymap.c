@@ -1,4 +1,4 @@
-// "Let's Split" keymap v21
+// "Let's Split" keymap v22
 
 #define B_LAYER_LAYER_COUNT 6
 
