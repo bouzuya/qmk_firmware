@@ -82,16 +82,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ,----------------------------------.              ,----------------------------------.
     // | Esc  |      | End  |      |      |              |      |      | Tab  |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // | Home |      | Del  |      |      |              | BS   |      |      |      |      |
+    // | Home |      | Del  | PgDn |      |              | BS   |      |      |      |      |
     // |------+------+------+------+------|              |------+------+------+------+------|
-    // |      |      |      |      |      |              |      |Enter |      |      |      |
+    // |      |      |      |      | PgUp |              |      |Enter |      |      |      |
     // `--------------------+------+------+------.,------+------+------+--------------------'
     //                      |      |      |      ||      |      |      |
     //                      `--------------------'`--------------------'
     [L3] = KEYMAP(
         _ESC_, _NOOP, _END_, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
-        _HOME, _NOOP, _DEL_, _NOOP, _NOOP, XXXXX, XXXXX, _BSPC, _NOOP, _NOOP, _NOOP, _____,
-        _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _ENT_, _NOOP, _NOOP, _NOOP,
+        _HOME, _NOOP, _DEL_, _PGDN, _NOOP, XXXXX, XXXXX, _BSPC, _NOOP, _NOOP, _NOOP, _____,
+        _NOOP, _NOOP, _NOOP, _NOOP, _PGUP, XXXXX, XXXXX, _NOOP, _ENT_, _NOOP, _NOOP, _NOOP,
         XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
 
     // Layer4

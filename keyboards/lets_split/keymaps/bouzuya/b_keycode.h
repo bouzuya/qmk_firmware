@@ -85,6 +85,8 @@
 
 #define _HOME KC_HOME
 #define _END_ KC_END
+#define _PGUP KC_PGUP
+#define _PGDN KC_PGDOWN
 
 #define _BSPC KC_BSPC
 #define _DEL_ KC_DEL
