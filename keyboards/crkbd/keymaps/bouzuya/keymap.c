@@ -1,0 +1,526 @@
+#include QMK_KEYBOARD_H
+
+#ifdef SSD1306OLED
+  #include "ssd1306.h"
+#endif
+
+#define B_LAYER_LAYER_COUNT 6
+
+#include "b_keycode.h"
+#include "b_layer.h"
+#include "b_mod.h"
+
+#define L0 0
+#define L1 1
+#define L2 2
+#define L3 3
+#define L4 4
+#define L5 5
+
+#define B_KEYMAP( \
+    L10, L11, L12, L13, L14, L15, R10, R11, R12, R13, R14, R15, \
+    L20, L21, L22, L23, L24, L25, R20, R21, R22, R23, R24, R25, \
+    L30, L31, L32, L33, L34, L35, R30, R31, R32, R33, R34, R35, \
+    L40, L41, L42, L43, L44, L45, R40, R41, R42, R43, R44, R45 \
+    ) \
+    LAYOUT( \
+        _NOOP, L10, L11, L12, L13, L14, R11, R12, R13, R14, R15, _NOOP, \
+        _NOOP, L20, L21, L22, L23, L24, R21, R22, R23, R24, R25, _NOOP, \
+        _NOOP, L30, L31, L32, L33, L34, R31, R32, R33, R34, R35, _NOOP, \
+                    L43, L44, L45, R40, R41, R42 \
+    )
+
+
+enum custom_keycodes {
+  B_RST = SAFE_RANGE,
+  B_M_C,
+  B_M_S,
+  B_M_A,
+  B_M_G,
+  B_L_0,
+  B_L_1,
+  B_L_2,
+  B_L_3,
+  B_L_4,
+  B_L_5
+};
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    // Layer0
+    // .----------------------------------.              ,----------------------------------.
+    // | Q    | W    | E    | R    | T    |              | Y    | U    | I    | O    | P    |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | A    | S    | D    | F    | G    |              | H    | J    | K    | L    | L3   |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | Z    | X    | C    | V    | B    |              | N    | M    | ,    | .    | /    |
+    // `--------------------+------+------+------.,------+------+------+--------------------'
+    //                      | L4   | L1   | SP   || L2   | L1   | L5   |
+    //                      `--------------------'`--------------------'
+    [L0] = B_KEYMAP(
+        _Q___, _W___, _E___, _R___, _T___, XXXXX, XXXXX, _Y___, _U___, _I___, _O___, _P___,
+        _A___, _S___, _D___, _F___, _G___, XXXXX, XXXXX, _H___, _J___, _K___, _L___, B_L_3,
+        _Z___, _X___, _C___, _V___, _B___, XXXXX, XXXXX, _N___, _M___, _COMM, _DOT_, _SLSH,
+        XXXXX, XXXXX, XXXXX, B_L_4, B_L_1, _SPC_, B_L_2, B_L_1, B_L_5, XXXXX, XXXXX, XXXXX),
+
+    // Layer1
+    // ,----------------------------------.              ,----------------------------------.
+    // | 1    | 2    | 3    | 4    | 5    |              | 6    | 7    | 8    | 9    | 0    |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | :    | ;    | ,    | -    | .    |              | Left | Down | Up   |Right |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | /    | @    | [    | \    | ]    |              | ^    | _    |      |      |      |
+    // `--------------------+------+------+------.,------+------+------+--------------------'
+    //                      |      |      |      ||      |      |      |
+    //                      `--------------------'`--------------------'
+    [L1] = B_KEYMAP(
+        _1___, _2___, _3___, _4___, _5___, XXXXX, XXXXX, _6___, _7___, _8___, _9___, _0___,
+        _COLN, _SCLN, _COMM, _MINS, _DOT_, XXXXX, XXXXX, _LEFT, _DOWN, _UP__, _RGHT, _____,
+        _SLSH, _AT__, _LBRC, _BSLS, _RBRC, XXXXX, XXXXX, _CIRC, _UNDS, _NOOP, _NOOP, _NOOP,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
+
+    // Layer2
+    // ,----------------------------------.              ,----------------------------------.
+    // | F1   | F2   | F3   | F4   | F5   |              | F6   | F7   | F8   | F9   | F10  |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | F11  | F12  | F13  | F14  | F15  |              | Mute |VolDn |VolUp |      |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | F16  | F17  | F18  | F19  | F20  |              |      |      |      |      |RESET |
+    // `--------------------+------+------+------.,------+------+------+--------------------'
+    //                      |      |      |      ||      |      |      |
+    //                      `--------------------'`--------------------'
+    [L2] = B_KEYMAP(
+        _F1__, _F2__, _F3__, _F4__, _F5__, XXXXX, XXXXX, _F6__, _F7__, _F8__, _F9__, _F10_,
+        _F11_, _F12_, _F13_, _F14_, _F15_, XXXXX, XXXXX, _MUTE, _VOLD, _VOLU, _NOOP, _____,
+        _F16_, _F17_, _F18_, _F19_, _F20_, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, RESET,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
+
+    // Layer3
+    // ,----------------------------------.              ,----------------------------------.
+    // | Esc  |      | End  |      |      |              |      |      | Tab  |      |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | Home |      | Del  | PgDn |      |              | BS   |      |      |      |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // |      |      |      |      | PgUp |              |      |Enter |      |      |      |
+    // `--------------------+------+------+------.,------+------+------+--------------------'
+    //                      |      |      |      ||      |      |      |
+    //                      `--------------------'`--------------------'
+    [L3] = B_KEYMAP(
+        _ESC_, _NOOP, _END_, _NOOP, _NOOP, XXXXX, XXXXX, _NOOP, _NOOP, _TAB_, _NOOP, _NOOP,
+        _HOME, _NOOP, _DEL_, _PGDN, _NOOP, XXXXX, XXXXX, _BSPC, _NOOP, _NOOP, _NOOP, _____,
+        _NOOP, _NOOP, _NOOP, _NOOP, _PGUP, XXXXX, XXXXX, _NOOP, _ENT_, _NOOP, _NOOP, _NOOP,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
+
+    // Layer4
+    // ,----------------------------------.              ,----------------------------------.
+    // |      | Eisu | ____ |      |      |              |      |      |      |      |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // | Ctrl |Shift | Alt  | GUI  |      |              |      |      |      |      |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // |      |      |      |      |      |              |      |      |      |      |      |
+    // `--------------------+------+------+------.,------+------+------+--------------------'
+    //                      |      |      |      ||      |      |      |
+    //                      `--------------------'`--------------------'
+    [L4] = B_KEYMAP(
+        _NOOP, _EISU, B_RST, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        B_M_C, B_M_S, B_M_A, B_M_G, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        _NOOP, _NOOP, _NOOP, _NOOP, _NOOP, XXXXX, XXXXX, _____, _____, _____, _____, _____,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
+
+    // Layer5
+    // ,----------------------------------.              ,----------------------------------.
+    // |      |      |      |      |      |              |      |      | ____ | Kana |      |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // |      |      |      |      |      |              |      | GUI  | Alt  |Shift | Ctrl |
+    // |------+------+------+------+------|              |------+------+------+------+------|
+    // |      |      |      |      |      |              |      |      |      |      |      |
+    // `--------------------+------+------+------.,------+------+------+--------------------'
+    //                      |      |      |      ||      |      |      |
+    //                      `--------------------'`--------------------'
+    [L5] = B_KEYMAP(
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, B_RST, _KANA, _NOOP,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, B_M_G, B_M_A, B_M_S, B_M_C,
+        _____, _____, _____, _____, _____, XXXXX, XXXXX, _NOOP, _NOOP, _NOOP, _NOOP, _NOOP,
+        XXXXX, XXXXX, XXXXX, _____, _____, _____, _____, _____, _____, XXXXX, XXXXX, XXXXX),
+};
+
+int RGB_current_mode;
+
+extern uint8_t is_master;
+
+//SSD1306 OLED update loop, make sure to add #define SSD1306OLED in config.h
+#ifdef SSD1306OLED
+
+// When add source files to SRC in rules.mk, you can use functions.
+const char *read_layer_state(void);
+const char *read_logo(void);
+void set_keylog(uint16_t keycode, keyrecord_t *record);
+const char *read_keylog(void);
+const char *read_keylogs(void);
+
+// const char *read_mode_icon(bool swap);
+// const char *read_host_led_state(void);
+// void set_timelog(void);
+// const char *read_timelog(void);
+
+void matrix_scan_user(void) {
+   iota_gfx_task();
+}
+
+void matrix_render_user(struct CharacterMatrix *matrix) {
+  if (is_master) {
+    // If you want to change the display of OLED, you need to change here
+    matrix_write_ln(matrix, read_layer_state());
+    matrix_write_ln(matrix, read_keylog());
+    //matrix_write_ln(matrix, read_keylogs());
+    //matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
+    //matrix_write_ln(matrix, read_host_led_state());
+    //matrix_write_ln(matrix, read_timelog());
+  } else {
+    matrix_write(matrix, read_logo());
+  }
+}
+
+void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
+  if (memcmp(dest->display, source->display, sizeof(dest->display))) {
+    memcpy(dest->display, source->display, sizeof(dest->display));
+    dest->dirty = true;
+  }
+}
+
+void iota_gfx_task_user(void) {
+  struct CharacterMatrix matrix;
+  matrix_clear(&matrix);
+  matrix_render_user(&matrix);
+  matrix_update(&display, &matrix);
+}
+#endif//SSD1306OLED
+
+
+// utils
+
+static void debug_b_layer_state(uint32_t ls)
+{
+    dprintf("%u:", biton32(ls));
+    for (uint8_t i = B_LAYER_LAYER_COUNT; i > 0; i--)
+        if (ls & (1UL << i))
+            dprint("1");
+        else
+            dprint("0");
+}
+
+static void debug_b_layer(void)
+{
+    dprint("[");
+    for (uint8_t i = 0; i < 6; i++)
+    {
+        debug_b_layer_state(b_layer_get_layer_state(i));
+        if (b_layer_oneshot_is_on(i))
+            dprint("o");
+        else
+            dprint("_");
+        if (b_layer_pressed_is_on(i))
+            dprint("p");
+        else
+            dprint("_");
+        if (i != 5)
+            dprint(", ");
+    }
+    dprint("]");
+}
+
+static void debug_b_mod(void)
+{
+    dprint("(");
+    dprint("C");
+    if (b_mod_oneshot_is_on(B_MOD_CTL))
+        dprint("o");
+    else
+        dprint("_");
+    if (b_mod_pressed_is_on(B_MOD_CTL))
+        dprint("p");
+    else
+        dprint("_");
+    dprint("S");
+    if (b_mod_oneshot_is_on(B_MOD_SFT))
+        dprint("o");
+    else
+        dprint("_");
+    if (b_mod_pressed_is_on(B_MOD_SFT))
+        dprint("p");
+    else
+        dprint("_");
+    dprint("A");
+    if (b_mod_oneshot_is_on(B_MOD_ALT))
+        dprint("o");
+    else
+        dprint("_");
+    if (b_mod_pressed_is_on(B_MOD_ALT))
+        dprint("p");
+    else
+        dprint("_");
+    dprint("G");
+    if (b_mod_oneshot_is_on(B_MOD_GUI))
+        dprint("o");
+    else
+        dprint("_");
+    if (b_mod_pressed_is_on(B_MOD_GUI))
+        dprint("p");
+    else
+        dprint("_");
+    dprint(")");
+}
+
+static void debug_b(void)
+{
+    debug_b_layer_state(layer_state);
+    dprint(" ");
+    debug_b_layer();
+    dprint(" ");
+    debug_b_mod();
+    dprint("\n");
+}
+
+static void b_unregister_mod_if_is_off(b_mod_t b)
+{
+    if (b_mod_is_on(b))
+        return;
+    uint8_t mn = biton(b);
+    uint8_t mod_keycode = mn + KC_LCTL;
+    unregister_code(mod_keycode);
+}
+
+static void b_unregister_mod_all_if_is_off(void)
+{
+    b_unregister_mod_if_is_off(B_MOD_GUI);
+    b_unregister_mod_if_is_off(B_MOD_ALT);
+    b_unregister_mod_if_is_off(B_MOD_SFT);
+    b_unregister_mod_if_is_off(B_MOD_CTL);
+}
+
+static void b_layer_update(void)
+{
+    dprintln("b_layer_update: ");
+    debug_b();
+
+    uint8_t cn = biton32(layer_state);
+    uint32_t cbs = b_layer_get_layer_state(cn);
+    uint8_t cbn = biton32(cbs);
+    b_layer_oneshot_off(cn);
+    if (b_layer_is_on(cn))
+    {
+        // do nothing
+    }
+    else
+    {
+        b_layer_clear_layer_state(cn);
+        b_mod_pressed_clear();
+        b_unregister_mod_all_if_is_off();
+        if (cn != cbn)
+            layer_state_set(cbs);
+    }
+
+    debug_b();
+}
+
+// process
+static void b_process_reset_down(void)
+{
+    dprintln("b_process_reset_down: ");
+    debug_b();
+
+    for (uint8_t i = 0; i < 32; i++)
+    {
+        b_layer_oneshot_off(i);
+        b_layer_pressed_off(i);
+        b_layer_clear_layer_state(i);
+    }
+    layer_clear();
+
+    b_mod_clear();
+    b_unregister_mod_all_if_is_off();
+}
+
+static void b_process_reset_up(void)
+{
+    dprintln("b_process_reset_up: ");
+    debug_b();
+
+    // do nothing
+}
+
+static void b_process_layer_down(uint16_t keycode)
+{
+    dprintln("b_process_layer_down: ");
+    debug_b();
+
+    uint8_t tn = keycode - B_L_0;
+    uint32_t tbs = b_layer_get_layer_state(tn);
+    uint32_t cs = layer_state;
+    uint8_t cn = biton32(cs);
+    uint32_t cbs = b_layer_get_layer_state(cn);
+    uint8_t cbn = biton32(cbs);
+    b_layer_oneshot_on(tn);
+    b_layer_pressed_on(tn);
+    // repeat. e.g. L0 -> L1 -> L1
+    if (cn != tn)
+    {
+        // loop. e.g. L0 -> L1 -> L3 -> L1
+        if (tn == cbn)
+            b_layer_set_layer_state(cn, tbs);
+        b_layer_set_layer_state(tn, cs);
+        layer_on(tn);
+    }
+
+    debug_b();
+}
+
+static void b_process_layer_up(uint16_t keycode)
+{
+    dprintln("b_process_layer_up: ");
+    debug_b();
+
+    uint8_t tn = keycode - B_L_0;
+    uint8_t cn = biton32(layer_state);
+    uint32_t tbs = b_layer_get_layer_state(tn);
+    b_layer_pressed_off(tn);
+    if (b_layer_is_on(tn))
+    {
+        // do nothing
+    }
+    else
+    {
+        b_layer_clear_layer_state(tn);
+        if (cn == tn)
+            layer_state_set(tbs);
+        else
+            b_layer_set_layer_state(cn, tbs);
+    }
+
+    debug_b();
+}
+
+static void b_process_mod_down(uint16_t keycode)
+{
+    dprintln("b_process_mod_down: ");
+    debug_b();
+
+    uint8_t mn = keycode - B_M_C;
+    b_mod_t mod = (1UL << mn);
+    uint8_t mod_keycode = mn + KC_LCTL;
+    b_mod_on(mod);
+    register_code(mod_keycode);
+
+    b_layer_update();
+
+    debug_b();
+}
+
+static void b_process_mod_up(uint16_t keycode)
+{
+    dprintln("b_process_mod_up: ");
+    debug_b();
+
+    uint8_t mn = keycode - B_M_C;
+    b_mod_t mod = (1UL << mn);
+    b_mod_pressed_off(mod);
+    b_unregister_mod_if_is_off(mod);
+
+    debug_b();
+}
+
+static void b_process_others_down(uint16_t keycode)
+{
+    dprintln("b_process_others_down: ");
+    debug_b();
+
+    register_code(keycode);
+
+    b_mod_oneshot_clear();
+    b_unregister_mod_all_if_is_off();
+
+    b_layer_update();
+
+    debug_b();
+}
+
+static void b_process_others_up(uint16_t keycode)
+{
+    dprintln("b_process_others_up: ");
+    debug_b();
+
+    unregister_code(keycode);
+
+    debug_b();
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record)
+{
+    if (record->event.pressed)
+    {
+        // crkbd only
+        #ifdef SSD1306OLED
+            set_keylog(keycode, record);
+        #endif
+
+        switch (keycode)
+        {
+        case KC_NO:
+            return false;
+        case KC_A ... KC_EXSEL:
+            b_process_others_down(keycode);
+            return false;
+        case B_RST:
+            b_process_reset_down();
+            return false;
+        case B_M_C: // fall-through
+        case B_M_S: // fall-through
+        case B_M_A: // fall-through
+        case B_M_G:
+            b_process_mod_down(keycode);
+            return false;
+        case B_L_1: // fall-through
+        case B_L_2: // fall-through
+        case B_L_3: // fall-through
+        case B_L_4: // fall-through
+        case B_L_5:
+            b_process_layer_down(keycode);
+            return false;
+        }
+    }
+    else
+    {
+        switch (keycode)
+        {
+        case KC_NO:
+            return false;
+        case KC_A ... KC_EXSEL:
+            b_process_others_up(keycode);
+            return false;
+        case B_RST:
+            b_process_reset_up();
+            return false;
+        case B_M_C: // fall-through
+        case B_M_S: // fall-through
+        case B_M_A: // fall-through
+        case B_M_G:
+            b_process_mod_up(keycode);
+            return false;
+        case B_L_1: // fall-through
+        case B_L_2: // fall-through
+        case B_L_3: // fall-through
+        case B_L_4: // fall-through
+        case B_L_5:
+            b_process_layer_up(keycode);
+            return false;
+        }
+    }
+    return true;
+};
+
+// crkbd only
+void matrix_init_user(void) {
+    //SSD1306 OLED init, make sure to add #define SSD1306OLED in config.h
+    #ifdef SSD1306OLED
+        iota_gfx_init(!has_usb());   // turns on the display
+    #endif
+}
